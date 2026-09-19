@@ -21,7 +21,7 @@ export default function Founder() {
           <div>
             <p className="section-eyebrow">About the founder</p>
             <h3 className="mt-2 font-display text-2xl font-bold text-white sm:text-3xl">
-              Jefrin
+              JEFRIN
             </h3>
             <p className="mt-1 text-sm font-medium text-white/45">
               Founder &amp; CEO
