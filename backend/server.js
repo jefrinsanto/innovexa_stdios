@@ -11,21 +11,21 @@ const app = express();
 
 // ---------- Middleware ----------
 app.use(helmet());
+
 // ---------- CORS ----------
-// CLIENT_URL accepts one origin or a comma-separated list, e.g.
-//   CLIENT_URL=http://localhost:5173,http://localhost:3000
-// Defaults cover both Vite's default port (5173) and the common CRA-style port (3000)
-// so the form works out of the box regardless of which dev server the frontend uses.
-const allowedOrigins = (
-  process.env.CLIENT_URL || "http://localhost:5173,http://localhost:3000"
-)
-  .split(",")
-  .map((o) => o.trim());
+const allowedOrigins = [
+  "https://innovexa-stdios.onrender.com",
+  "http://localhost:5173",
+  "http://localhost:3000",
+  ...(process.env.CLIENT_URL || "")
+    .split(",")
+    .map((o) => o.trim()),
+].filter(Boolean);
 
 app.use(
   cors({
     origin(origin, callback) {
-      // Allow non-browser requests (curl, Postman, server-to-server) which send no origin
+      // Allow non-browser requests such as curl/Postman
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
@@ -34,13 +34,14 @@ app.use(
     },
   })
 );
+
 app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: true }));
 
-// Basic rate limiting on the contact endpoint to prevent spam/abuse
+// Basic rate limiting on the contact endpoint
 const contactLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 10, // limit each IP to 10 submissions per window
+  windowMs: 15 * 60 * 1000,
+  max: 10,
   message: {
     success: false,
     message: "Too many submissions from this IP. Please try again later.",
