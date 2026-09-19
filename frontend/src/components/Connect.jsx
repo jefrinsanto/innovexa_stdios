@@ -13,8 +13,9 @@ import {
 
 // In dev this hits the backend directly. Override with VITE_API_URL in frontend/.env
 // when deploying (see frontend/.env.example) — no code changes needed between environments.
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api/contact";
-
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  "https://innovexa-api.onrender.com/api/contact";
 const initialForm = { name: "", email: "", phone: "", message: "" };
 
 export default function Connect() {
