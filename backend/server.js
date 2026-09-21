@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const path = require("path");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const helmet = require("helmet");
@@ -10,7 +11,7 @@ const contactRoutes = require("./routes/contact");
 const app = express();
 
 // ---------- Serve Static Files ----------
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.set("trust proxy", 1);
 
